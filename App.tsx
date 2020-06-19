@@ -1,19 +1,44 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { View,TouchableHighlight, Text } from 'react-native';
+import { Renders } from './views/Renders';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+const Stack = createStackNavigator();
+
+
+export default function App(){
+  return(
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Review" component={Review} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+function Home({navigation}){
+  let render =  new Renders;
+  return(
+    <View>
+      {render.homeScreenRender()}
+      <Text>Test</Text>
+      <TouchableHighlight onPress={() =>{navigation.navigate('Review')} } style = {render.styles.buttons} underlayColor={'green'} >
+            <Text style={render.styles.buttonText}>Review list</Text>
+      </TouchableHighlight>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function Review({navigation}){
+  let render =  new Renders;
+  return(
+    <View>
+      {render.homeScreenRender()}
+      <TouchableHighlight onPress={() =>{navigation.push('Home')} } style = {render.styles.buttons} underlayColor={'green'} >
+        <Text style={render.styles.buttonText}>Home</Text>
+      </TouchableHighlight>
+    </View>
+  );
+}
